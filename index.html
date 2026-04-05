@@ -610,27 +610,22 @@
       letter-spacing: 0.08em;
     }
 
-    /* chest.png full width, centered, subtle blur */
-    .sauce-chest-wrap {
+    /* CHEST IMAGE SECTION — visible, full width, no blur, part of page flow */
+    .chest-visual-section {
       width: 100%;
-      line-height: 0;
-      background: #050505;
-      display: flex;
-      justify-content: center;
+      margin: 20px 0 40px;
+      position: relative;
+      z-index: 2;
     }
 
-    .sauce-chest-img {
+    .chest-image {
       width: 100%;
       display: block;
       max-height: 620px;
       object-fit: cover;
       object-position: center center;
-      filter: blur(1.8px);
-      transition: filter 0.2s;
-    }
-
-    .sauce-chest-img:hover {
-      filter: blur(0);
+      border-radius: 0;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
     }
 
     .heat-divider {
@@ -1175,6 +1170,7 @@
   <div class="sauce-blob-2"></div>
   <div class="sauce-banner-wrap"><img src="banner.png" alt="banner" class="sauce-banner" /></div>
   <main>
+    <!-- Hero with blurred sauce.png behind -->
     <section class="sauce-hero-section">
       <div class="sauce-hero-bg"></div>
       <div class="sauce-hero container">
@@ -1183,7 +1179,12 @@
         <p class="sauce-tagline fade-up fade-up-d2">Too hot to ignore.</p>
       </div>
     </section>
-    <div class="sauce-chest-wrap"><img src="chest.png" alt="chest" class="sauce-chest-img" /></div>
+
+    <!-- CHEST IMAGE SECTION - fully visible, no blur, right after title -->
+    <div class="chest-visual-section">
+      <img src="chest.png" alt="$SAUCE chest artwork" class="chest-image" />
+    </div>
+
     <div class="heat-divider"></div>
     <section class="sauce-desc-section">
       <div class="sauce-description container fade-up">
@@ -1292,7 +1293,6 @@
   function closeModalOutside(e, id) { if (e.target.id === id) closeModal(id); }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open')); document.body.style.overflow = ''; } });
 
-  // CHATBOT LOGIC
   window.chatOpen = false;
   window.toggleChatbot = function () {
     window.chatOpen = !window.chatOpen;
@@ -1341,4 +1341,4 @@
   if (window.location.hash === '#sauce') setTimeout(() => updateChatbot('sauce'), 50);
 </script>
 </body>
-</html>
+  </html>
