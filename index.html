@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Aiparadoxlabs — Experiments at the Edge of AI</title>
   <meta name="description" content="Aiparadoxlabs is a space for experiments at the intersection of AI, internet culture and digital systems. Nothing here is final. Everything is in motion." />
   <meta name="keywords" content="aiparadoxlabs, AI experiments, internet culture, digital systems, $SAUCE, solana, meme coin, attention economy" />
@@ -19,192 +19,1094 @@
   <meta name="twitter:title" content="Aiparadoxlabs — Experiments at the Edge of AI" />
   <meta name="twitter:description" content="A space for experiments at the intersection of AI, internet culture and digital systems." />
   <meta name="twitter:image" content="lab.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:#07070A; --surface:#0F0F14; --border:#1A1A22; --text:#E8E8F0;
-      --muted:#6B6B80; --accent:#A855F7; --glow:rgba(168,85,247,0.18);
-      --sauce-bg:#090909; --red:#FF2D2D; --orange:#FF6A00; --yellow:#FFF12B; --teal:#00FFC6;
-      --radius:12px; --max-w:1140px; --pad:24px; --transition:160ms ease;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    html { scroll-behavior:smooth; }
-    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
-    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.6; }
 
-    .page { display:none; min-height:100vh; position:relative; z-index:1; }
-    .page.active { display:block; }
-    .container { max-width:var(--max-w); margin:0 auto; padding:0 var(--pad); }
+    :root {
+      --bg: #07070A;
+      --surface: #0F0F14;
+      --border: #1A1A22;
+      --text: #E8E8F0;
+      --muted: #6B6B80;
+      --accent: #A855F7;
+      --glow: rgba(168, 85, 247, 0.18);
+      --sauce-bg: #090909;
+      --red: #FF2D2D;
+      --orange: #FF6A00;
+      --yellow: #FFF12B;
+      --teal: #00FFC6;
+      --radius: 12px;
+      --max-w: 1140px;
+      --pad: 24px;
+      --transition: 160ms ease;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .page {
+      display: none;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
 
     /* NAVBAR */
-    nav { position:fixed; top:0; left:0; right:0; z-index:200; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid transparent; transition:border-color var(--transition),background var(--transition); }
-    nav.scrolled { background:rgba(7,7,10,0.88); border-color:var(--border); }
-    .nav-inner { max-width:var(--max-w); margin:0 auto; padding:0 var(--pad); height:60px; display:flex; align-items:center; justify-content:space-between; }
-    .nav-logo { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:500; letter-spacing:-0.02em; color:var(--text); cursor:pointer; transition:color var(--transition); }
-    .nav-logo:hover { color:var(--nav-accent,var(--accent)); }
-    .nav-links { display:flex; align-items:center; gap:28px; list-style:none; }
-    .nav-links a, .nav-links span { font-size:13px; font-weight:400; color:var(--muted); text-decoration:none; cursor:pointer; letter-spacing:0.02em; transition:color var(--transition); }
-    .nav-links a:hover, .nav-links span:hover { color:var(--nav-accent,var(--accent)); }
-    .nav-links .nav-icon svg { width:16px; height:16px; fill:var(--muted); display:block; transition:fill var(--transition); }
-    .nav-links .nav-icon:hover svg { fill:var(--nav-accent,var(--accent)); }
-    .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
-    .nav-hamburger span { display:block; width:22px; height:1.5px; background:var(--muted); transition:background var(--transition); }
-    .nav-hamburger:hover span { background:var(--nav-accent,var(--accent)); }
-    @media(max-width:640px){
-      .nav-hamburger{display:flex;} .nav-links{display:none;}
-      .nav-links.open{display:flex;flex-direction:column;align-items:flex-start;position:absolute;top:60px;left:0;right:0;background:rgba(7,7,10,0.97);border-bottom:1px solid var(--border);padding:20px var(--pad);gap:20px;}
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition), background var(--transition);
     }
 
-    /* TYPOGRAPHY & UTILS */
-    section { padding:80px 0; }
-    @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-    .fade-up{animation:fadeUp 0.7s ease both;} .fade-up-d1{animation-delay:.1s;} .fade-up-d2{animation-delay:.22s;} .fade-up-d3{animation-delay:.36s;} .fade-up-d4{animation-delay:.5s;}
-    h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.03em;}
-    h1{font-size:clamp(2.8rem,6vw,5.2rem);font-weight:700;line-height:1.05;}
-    h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:600;}
-    h3{font-size:1.1rem;font-weight:500;}
-    p{font-size:15px;line-height:1.75;color:var(--muted);}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;transition:border-color var(--transition),box-shadow var(--transition);}
-    .card:hover{border-color:var(--card-hover,var(--accent));box-shadow:0 0 24px var(--card-glow,var(--glow));}
-    .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;letter-spacing:.04em;padding:10px 22px;border-radius:8px;border:1px solid var(--btn-border,var(--accent));color:var(--btn-color,var(--accent));background:transparent;cursor:pointer;text-decoration:none;transition:background var(--transition),color var(--transition),box-shadow var(--transition);}
-    .btn:hover{background:var(--btn-bg-hover,var(--accent));color:#fff;box-shadow:0 0 20px var(--btn-glow,var(--glow));}
-    .page-footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:32px var(--pad);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;max-width:var(--max-w);margin:0 auto;}
-    .footer-brand{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--muted);}
-    .footer-note{font-family:'Space Mono',monospace;font-size:11px;color:#3a3a48;}
-    .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'Space Mono',monospace;font-size:12px;padding:10px 20px;border-radius:8px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:9999;}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    nav.scrolled {
+      background: rgba(7, 7, 10, 0.88);
+      border-color: var(--border);
+    }
 
-    /* HOME */
-    #page-home{--nav-accent:var(--accent);}
-    .home-grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(168,85,247,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,.04) 1px,transparent 1px);background-size:48px 48px;}
-    .home-glow{position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(168,85,247,.12) 0%,transparent 65%);pointer-events:none;z-index:0;}
-    .hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:160px 0 80px;position:relative;z-index:1;}
-    .hero-logo-frame{width:clamp(100px,14vw,128px);height:clamp(100px,14vw,128px);border-radius:50%;border:1.5px solid rgba(168,85,247,.45);background:rgba(168,85,247,.08);display:flex;align-items:center;justify-content:center;margin-bottom:40px;box-shadow:0 0 48px rgba(168,85,247,.25),inset 0 0 24px rgba(168,85,247,.07);overflow:hidden;}
-    .hero-logo{width:78%;height:78%;object-fit:contain;border-radius:50%;filter:drop-shadow(0 0 10px rgba(168,85,247,.5));}
-    .hero h1{margin-bottom:24px;background:linear-gradient(135deg,#fff 30%,#C084FC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .hero-intro{max-width:520px;font-size:15px;line-height:1.9;color:var(--muted);}
-    .hero-intro p+p{margin-top:12px;}
-    .section-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:40px;}
-    .experiment-card{display:flex;align-items:center;justify-content:space-between;gap:24px;--card-hover:var(--accent);--card-glow:rgba(168,85,247,.2);cursor:pointer;}
-    .experiment-card-meta h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:6px;}
-    .experiment-card-meta p{font-size:13px;margin:0;}
-    .experiment-card-arrow{font-family:'Space Mono',monospace;font-size:13px;color:var(--muted);white-space:nowrap;transition:color var(--transition),transform var(--transition);}
-    .experiment-card:hover .experiment-card-arrow{color:var(--accent);transform:translateX(4px);}
-    .home-wp-btn{--btn-border:rgba(168,85,247,.5);--btn-color:var(--accent);--btn-bg-hover:rgba(168,85,247,.15);--btn-glow:rgba(168,85,247,.2);margin-top:28px;}
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    /* SAUCE PAGE CUSTOM */
-    #page-sauce{background:var(--sauce-bg);--nav-accent:var(--orange);}
-    .sauce-blob-1{position:fixed;top:20%;left:-15%;width:600px;height:600px;background:radial-gradient(ellipse,rgba(255,45,45,.1) 0%,transparent 65%);pointer-events:none;z-index:0;animation:blobDrift 8s ease-in-out infinite alternate;}
-    .sauce-blob-2{position:fixed;bottom:10%;right:-10%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(255,106,0,.1) 0%,transparent 65%);pointer-events:none;z-index:0;animation:blobDrift 11s ease-in-out infinite alternate-reverse;}
-    @keyframes blobDrift{from{transform:translate(0,0) scale(1);}to{transform:translate(40px,-30px) scale(1.1);}}
-    @keyframes glitch{0%{clip-path:inset(0 0 98% 0);transform:translate(-2px,0);}10%{clip-path:inset(40% 0 50% 0);transform:translate(2px,0);}20%{clip-path:inset(80% 0 5% 0);transform:translate(-1px,0);}30%{clip-path:inset(20% 0 70% 0);transform:translate(1px,0);}40%{clip-path:inset(60% 0 30% 0);transform:translate(-2px,0);}100%{clip-path:inset(0 0 98% 0);transform:translate(0,0);}}
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      cursor: pointer;
+      transition: color var(--transition);
+    }
 
-    .sauce-banner-wrap{width:100%;position:relative;z-index:2;background:#0d0404;min-height:180px;overflow:hidden;margin-top:60px;}
-    .sauce-banner{width:100%;display:block;object-fit:cover;max-height:480px;min-height:180px;}
+    .nav-logo:hover {
+      color: var(--nav-accent, var(--accent));
+    }
 
-    /* Hero with blurred static sauce.png behind logo + title */
-    .sauce-hero-section{position:relative;overflow:hidden;padding:60px 0 50px;z-index:1;}
-    .sauce-hero-bg{position:absolute;inset:0;z-index:0;background-image:url('sauce.png');background-size:40%;background-position:center 20%;background-repeat:no-repeat;filter:blur(44px) saturate(1.6);opacity:.26;transform:scale(1.1);pointer-events:none;}
-    .sauce-hero{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;}
-    .sauce-logo-frame{width:clamp(110px,16vw,148px);height:clamp(110px,16vw,148px);border-radius:50%;border:1.5px solid rgba(255,106,0,.45);background:rgba(255,45,45,.06);display:flex;align-items:center;justify-content:center;margin-bottom:36px;box-shadow:0 0 48px rgba(255,106,0,.25),inset 0 0 24px rgba(255,45,45,.07);overflow:hidden;}
-    .sauce-logo{width:78%;height:78%;object-fit:cover;border-radius:50%;filter:drop-shadow(0 0 16px rgba(255,106,0,.7));}
-    .sauce-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(3.5rem,10vw,8rem);font-weight:700;letter-spacing:-.04em;line-height:1;background:linear-gradient(135deg,var(--yellow) 0%,var(--orange) 40%,var(--red) 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;margin-bottom:20px;}
-    .sauce-title::after{content:'$SAUCE';position:absolute;inset:0;background:linear-gradient(135deg,var(--yellow),var(--orange),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:glitch 4s infinite;opacity:.4;}
-    .sauce-tagline{font-family:'Space Mono',monospace;font-size:clamp(1rem,2.5vw,1.35rem);color:var(--orange);letter-spacing:.08em;}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
 
-    /* chest.png — full bleed, no container */
-    .sauce-chest-wrap{width:100%;position:relative;z-index:1;line-height:0;}
-    .sauce-chest-img{width:100%;display:block;max-height:620px;object-fit:cover;object-position:center top;}
+    .nav-links a,
+    .nav-links span {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: color var(--transition);
+    }
 
-    .heat-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--red),var(--orange),var(--yellow),transparent);opacity:.4;margin:0;}
+    .nav-links a:hover,
+    .nav-links span:hover {
+      color: var(--nav-accent, var(--accent));
+    }
 
-    /* DESCRIPTION */
-    .sauce-desc-section{position:relative;z-index:1;padding:60px 0 40px;}
-    .sauce-description{max-width:640px;margin:0 auto;text-align:center;}
-    .sauce-description p{font-size:16px;line-height:1.85;color:#9a9aaa;}
-    .sauce-description p+p{margin-top:16px;}
-    .sauce-narrative{border-left:2px solid var(--red);padding-left:24px;margin:40px auto;max-width:480px;text-align:left;}
-    .sauce-narrative p{font-family:'Space Mono',monospace;font-size:13px;line-height:2;color:#666;}
-    .sauce-narrative p+p{margin-top:2px;}
+    .nav-links .nav-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--muted);
+      display: block;
+      transition: fill var(--transition);
+    }
 
-    /* CA BLOCK */
-    .sauce-ca-block{background:rgba(255,45,45,.05);border:1px solid rgba(255,45,45,.2);border-radius:var(--radius);padding:20px 28px;max-width:560px;margin:0 auto 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-    .sauce-ca-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--red);text-transform:uppercase;margin-bottom:4px;}
-    .sauce-ca-value{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);word-break:break-all;}
-    .copy-btn{--btn-border:var(--orange);--btn-color:var(--orange);--btn-bg-hover:var(--orange);--btn-glow:rgba(255,106,0,.3);font-size:11px;padding:8px 16px;white-space:nowrap;}
-    .btn-buy{background:linear-gradient(135deg,var(--yellow),var(--orange));border-color:var(--orange);color:#000 !important;font-weight:700;font-size:14px;padding:13px 32px;--btn-border:var(--orange);--btn-color:#000;--btn-glow:rgba(255,106,0,.4);}
-    .btn-buy:hover{background:linear-gradient(135deg,var(--orange),var(--red));color:#fff !important;}
-    .btn-wp-sauce{--btn-border:rgba(255,106,0,.45);--btn-color:var(--orange);--btn-bg-hover:rgba(255,106,0,.12);--btn-glow:rgba(255,106,0,.2);}
-    .sauce-action-row{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:16px;}
+    .nav-links .nav-icon:hover svg {
+      fill: var(--nav-accent, var(--accent));
+    }
 
-    /* CHART SECTION */
-    .sauce-section-title{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:600;color:var(--text);margin-bottom:20px;letter-spacing:-.02em;}
-    .sauce-section-title span{color:var(--orange);}
-    .sauce-chart-section{position:relative;z-index:1;padding:60px 0;}
-    .chart-wrap{width:100%;border-radius:14px;overflow:hidden;border:1px solid rgba(255,106,0,.2);box-shadow:0 0 40px rgba(255,45,45,.08);background:#0a0a0e;}
-    .chart-wrap iframe{width:100%;height:520px;border:none;display:block;}
-    @media(max-width:640px){.chart-wrap iframe{height:360px;}}
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
 
-    /* COMMUNITY — Glassmorphism */
-    .sauce-community-section{position:relative;z-index:1;padding:60px 0;}
-    .community-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;}
-    @media(max-width:560px){.community-grid{grid-template-columns:1fr;}}
-    .community-card{background:rgba(20,20,28,0.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;text-decoration:none;color:inherit;transition:all 0.25s ease;box-shadow:0 8px 20px rgba(0,0,0,0.2);}
-    .community-card:hover{transform:translateY(-6px);border-color:rgba(255,106,0,0.5);background:rgba(30,30,38,0.6);box-shadow:0 20px 32px rgba(0,0,0,0.3);}
-    .community-card.twitter:hover{border-color:rgba(255,255,255,0.3);}
-    .community-card.telegram:hover{border-color:rgba(0,136,204,0.5);}
-    .community-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);}
-    .community-icon svg{width:26px;height:26px;}
-    .community-card.twitter .community-icon svg{fill:#fff;}
-    .community-card.telegram .community-icon svg{fill:#4aa8d8;}
-    .community-card-name{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--text);}
-    .community-card-desc{font-size:13px;color:var(--muted);}
-    .community-card-handle{font-family:'Space Mono',monospace;font-size:12px;color:var(--orange);opacity:.8;}
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--muted);
+      transition: background var(--transition);
+    }
+
+    @media (max-width: 640px) {
+      .nav-hamburger {
+        display: flex;
+      }
+      .nav-links {
+        display: none;
+      }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: rgba(7, 7, 10, 0.97);
+        border-bottom: 1px solid var(--border);
+        padding: 20px var(--pad);
+        gap: 20px;
+      }
+    }
+
+    /* UTILS */
+    section {
+      padding: 80px 0;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .fade-up-d1 {
+      animation-delay: 0.1s;
+    }
+
+    .fade-up-d2 {
+      animation-delay: 0.22s;
+    }
+
+    .fade-up-d3 {
+      animation-delay: 0.36s;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-weight: 700;
+      line-height: 1.05;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 600;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .card:hover {
+      border-color: var(--card-hover, var(--accent));
+      box-shadow: 0 0 24px var(--card-glow, var(--glow));
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: 1px solid var(--btn-border, var(--accent));
+      color: var(--btn-color, var(--accent));
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+    }
+
+    .btn:hover {
+      background: var(--btn-bg-hover, var(--accent));
+      color: #fff;
+      box-shadow: 0 0 20px var(--btn-glow, var(--glow));
+    }
+
+    .page-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px var(--pad);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .footer-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: #3a3a48;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* HOME PAGE */
+    #page-home {
+      --nav-accent: var(--accent);
+    }
+
+    .home-grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(168, 85, 247, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .home-glow {
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(168, 85, 247, 0.12) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 160px 0 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-logo-frame {
+      width: clamp(100px, 14vw, 128px);
+      height: clamp(100px, 14vw, 128px);
+      border-radius: 50%;
+      border: 1.5px solid rgba(168, 85, 247, 0.45);
+      background: rgba(168, 85, 247, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+      box-shadow: 0 0 48px rgba(168, 85, 247, 0.25);
+      overflow: hidden;
+    }
+
+    .hero-logo {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #fff 30%, #C084FC 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-intro {
+      max-width: 520px;
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .experiment-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      cursor: pointer;
+    }
+
+    .experiment-card-meta h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .experiment-card-meta p {
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .experiment-card-arrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .experiment-card:hover .experiment-card-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    /* SAUCE PAGE */
+    #page-sauce {
+      background: var(--sauce-bg);
+      --nav-accent: var(--orange);
+    }
+
+    .sauce-blob-1 {
+      position: fixed;
+      top: 20%;
+      left: -15%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(255, 45, 45, 0.1) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      animation: blobDrift 8s ease-in-out infinite alternate;
+    }
+
+    .sauce-blob-2 {
+      position: fixed;
+      bottom: 10%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(255, 106, 0, 0.1) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      animation: blobDrift 11s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes blobDrift {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+      to {
+        transform: translate(40px, -30px) scale(1.1);
+      }
+    }
+
+    @keyframes glitch {
+      0% {
+        clip-path: inset(0 0 98% 0);
+        transform: translate(-2px, 0);
+      }
+      10% {
+        clip-path: inset(40% 0 50% 0);
+        transform: translate(2px, 0);
+      }
+      20% {
+        clip-path: inset(80% 0 5% 0);
+        transform: translate(-1px, 0);
+      }
+      30% {
+        clip-path: inset(20% 0 70% 0);
+        transform: translate(1px, 0);
+      }
+      40% {
+        clip-path: inset(60% 0 30% 0);
+        transform: translate(-2px, 0);
+      }
+      100% {
+        clip-path: inset(0 0 98% 0);
+        transform: translate(0, 0);
+      }
+    }
+
+    .sauce-banner-wrap {
+      width: 100%;
+      background: #0d0404;
+      min-height: 180px;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+
+    .sauce-banner {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: 480px;
+      min-height: 180px;
+    }
+
+    /* blurred static background (sauce.png) reduced blur */
+    .sauce-hero-section {
+      position: relative;
+      overflow: hidden;
+      padding: 60px 0 50px;
+      z-index: 1;
+    }
+
+    .sauce-hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: url('sauce.png');
+      background-size: 42%;
+      background-position: center 25%;
+      background-repeat: no-repeat;
+      filter: blur(18px) saturate(1.3);
+      opacity: 0.35;
+      transform: scale(1.05);
+      pointer-events: none;
+    }
+
+    .sauce-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sauce-logo-frame {
+      width: clamp(110px, 16vw, 148px);
+      height: clamp(110px, 16vw, 148px);
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 106, 0, 0.45);
+      background: rgba(255, 45, 45, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 36px;
+      box-shadow: 0 0 48px rgba(255, 106, 0, 0.25);
+      overflow: hidden;
+    }
+
+    .sauce-logo {
+      width: 78%;
+      height: 78%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .sauce-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--yellow) 0%, var(--orange) 40%, var(--red) 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .sauce-title::after {
+      content: '$SAUCE';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--yellow), var(--orange), var(--red));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glitch 4s infinite;
+      opacity: 0.4;
+    }
+
+    .sauce-tagline {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--orange);
+      letter-spacing: 0.08em;
+    }
+
+    /* chest.png full width, centered, subtle blur */
+    .sauce-chest-wrap {
+      width: 100%;
+      line-height: 0;
+      background: #050505;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sauce-chest-img {
+      width: 100%;
+      display: block;
+      max-height: 620px;
+      object-fit: cover;
+      object-position: center center;
+      filter: blur(1.8px);
+      transition: filter 0.2s;
+    }
+
+    .sauce-chest-img:hover {
+      filter: blur(0);
+    }
+
+    .heat-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--orange), var(--yellow), transparent);
+      opacity: 0.4;
+    }
+
+    .sauce-desc-section {
+      padding: 60px 0 40px;
+    }
+
+    .sauce-description {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .sauce-description p {
+      font-size: 16px;
+      line-height: 1.85;
+      color: #9a9aaa;
+    }
+
+    .sauce-narrative {
+      border-left: 2px solid var(--red);
+      padding-left: 24px;
+      margin: 40px auto;
+      max-width: 480px;
+      text-align: left;
+    }
+
+    .sauce-narrative p {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      line-height: 2;
+      color: #666;
+    }
+
+    .sauce-ca-block {
+      background: rgba(255, 45, 45, 0.05);
+      border: 1px solid rgba(255, 45, 45, 0.2);
+      border-radius: var(--radius);
+      padding: 20px 28px;
+      max-width: 560px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .sauce-ca-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .sauce-ca-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      --btn-border: var(--orange);
+      --btn-color: var(--orange);
+      --btn-bg-hover: var(--orange);
+      font-size: 11px;
+      padding: 8px 16px;
+    }
+
+    .btn-buy {
+      background: linear-gradient(135deg, var(--yellow), var(--orange));
+      border-color: var(--orange);
+      color: #000 !important;
+      font-weight: 700;
+      padding: 13px 32px;
+    }
+
+    .btn-buy:hover {
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      color: #fff !important;
+    }
+
+    .sauce-action-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .sauce-section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .sauce-section-title span {
+      color: var(--orange);
+    }
+
+    .sauce-chart-section {
+      padding: 60px 0;
+    }
+
+    .chart-wrap {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 106, 0, 0.2);
+      background: #0a0a0e;
+    }
+
+    .chart-wrap iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+    }
+
+    @media (max-width: 640px) {
+      .chart-wrap iframe {
+        height: 360px;
+      }
+    }
+
+    /* COMMUNITY glassmorphism */
+    .sauce-community-section {
+      padding: 60px 0;
+    }
+
+    .community-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 560px) {
+      .community-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .community-card {
+      background: rgba(20, 20, 28, 0.45);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+    }
+
+    .community-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 106, 0, 0.5);
+      background: rgba(30, 30, 38, 0.6);
+    }
+
+    .community-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .community-card.twitter .community-icon svg {
+      fill: #fff;
+    }
+
+    .community-card.telegram .community-icon svg {
+      fill: #4aa8d8;
+    }
+
+    .community-card-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .community-card-handle {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--orange);
+    }
 
     /* CHATBOT */
-    .chatbot-toggle{position:fixed;bottom:28px;right:28px;z-index:300;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--red));border:none;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(255,106,0,.45);transition:transform .2s,box-shadow .2s;}
-    .chatbot-toggle:hover{transform:scale(1.08);box-shadow:0 6px 32px rgba(255,106,0,.6);}
-    .chatbot-toggle svg{width:24px;height:24px;fill:#fff;}
-    .chatbot-toggle .chatbot-close-icon{display:none;}
-    .chatbot-toggle.open .chatbot-open-icon{display:none;}
-    .chatbot-toggle.open .chatbot-close-icon{display:block;}
-    .chatbot-window{position:fixed;bottom:96px;right:28px;z-index:300;width:min(380px,calc(100vw - 40px));height:520px;border-radius:18px;background:#0d0d11;border:1px solid rgba(255,106,0,.35);box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 0 1px rgba(255,106,0,.1);display:flex;flex-direction:column;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(16px) scale(.97);transition:opacity .25s,transform .25s;}
-    .chatbot-window.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1);}
-    .chatbot-header{padding:16px 20px;background:linear-gradient(135deg,rgba(255,106,0,.12),rgba(255,45,45,.08));border-bottom:1px solid rgba(255,106,0,.2);display:flex;align-items:center;gap:12px;}
-    .chatbot-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--red));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-    .chatbot-header-text{flex:1;}
-    .chatbot-header-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--text);}
-    .chatbot-header-status{font-size:11px;color:var(--orange);font-family:'Space Mono',monospace;}
-    .chatbot-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;}
-    .chat-msg{display:flex;gap:8px;max-width:88%;}
-    .chat-msg.user{align-self:flex-end;flex-direction:row-reverse;}
-    .chat-msg.bot{align-self:flex-start;}
-    .chat-bubble{padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.6;}
-    .chat-msg.bot .chat-bubble{background:rgba(255,106,0,.1);border:1px solid rgba(255,106,0,.2);color:#ccc;border-bottom-left-radius:4px;}
-    .chat-msg.user .chat-bubble{background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;border-bottom-right-radius:4px;}
-    .chat-typing{display:flex;gap:4px;align-items:center;padding:10px 14px;}
-    .chat-typing span{width:7px;height:7px;background:var(--orange);border-radius:50%;animation:typingDot 1.2s infinite;}
-    .chat-typing span:nth-child(2){animation-delay:.2s;}
-    .chat-typing span:nth-child(3){animation-delay:.4s;}
-    @keyframes typingDot{0%,60%,100%{opacity:.3;transform:scale(.8);}30%{opacity:1;transform:scale(1);}}
-    .chatbot-input-row{padding:12px 16px;border-top:1px solid rgba(255,106,0,.15);display:flex;gap:8px;align-items:center;}
-    .chatbot-input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,106,0,.25);border-radius:10px;padding:9px 14px;color:var(--text);font-size:13px;outline:none;}
-    .chatbot-input:focus{border-color:rgba(255,106,0,.6);}
-    .chatbot-send{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--orange),var(--red));display:flex;align-items:center;justify-content:center;}
-    .chatbot-send svg{width:16px;height:16px;fill:#fff;}
-    @media(max-width:640px){.chatbot-window{bottom:84px;right:16px;width:calc(100vw - 32px);height:460px;}.chatbot-toggle{bottom:20px;right:20px;}}
-    
+    .chatbot-toggle {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 300;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      border: none;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(255, 106, 0, 0.45);
+      transition: transform 0.2s;
+    }
+
+    .chatbot-toggle svg {
+      width: 24px;
+      height: 24px;
+      fill: #fff;
+    }
+
+    .chatbot-toggle .chatbot-close-icon {
+      display: none;
+    }
+
+    .chatbot-toggle.open .chatbot-open-icon {
+      display: none;
+    }
+
+    .chatbot-toggle.open .chatbot-close-icon {
+      display: block;
+    }
+
+    .chatbot-window {
+      position: fixed;
+      bottom: 96px;
+      right: 28px;
+      z-index: 300;
+      width: min(380px, calc(100vw - 40px));
+      height: 520px;
+      border-radius: 18px;
+      background: #0d0d11;
+      border: 1px solid rgba(255, 106, 0, 0.35);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(16px) scale(0.97);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .chatbot-window.open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0) scale(1);
+    }
+
+    .chatbot-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(255, 106, 0, 0.12), rgba(255, 45, 45, 0.08));
+      border-bottom: 1px solid rgba(255, 106, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chatbot-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .chatbot-header-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .chatbot-header-status {
+      font-size: 11px;
+      color: var(--orange);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-msg {
+      display: flex;
+      gap: 8px;
+      max-width: 88%;
+    }
+
+    .chat-msg.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .chat-msg.bot {
+      align-self: flex-start;
+    }
+
+    .chat-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .chat-msg.bot .chat-bubble {
+      background: rgba(255, 106, 0, 0.1);
+      border: 1px solid rgba(255, 106, 0, 0.2);
+      color: #ccc;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-msg.user .chat-bubble {
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-typing {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 10px 14px;
+    }
+
+    .chat-typing span {
+      width: 7px;
+      height: 7px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: typingDot 1.2s infinite;
+    }
+
+    @keyframes typingDot {
+
+      0%,
+      60%,
+      100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+
+      30% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .chatbot-input-row {
+      padding: 12px 16px;
+      border-top: 1px solid rgba(255, 106, 0, 0.15);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .chatbot-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 106, 0, 0.25);
+      border-radius: 10px;
+      padding: 9px 14px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .chatbot-input:focus {
+      border-color: rgba(255, 106, 0, 0.6);
+    }
+
+    .chatbot-send {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chatbot-send svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
     /* MODAL */
-    .modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;}
-    .modal-overlay.open{opacity:1;pointer-events:all;}
-    .modal-box{background:#0f0f14;border:1px solid #2a2a36;border-radius:20px;padding:40px;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;position:relative;transform:translateY(24px);transition:transform .25s;}
-    .modal-overlay.open .modal-box{transform:translateY(0);}
-    .modal-close{position:absolute;top:18px;right:22px;background:none;border:none;color:var(--muted);font-size:28px;cursor:pointer;}
-    .modal-title{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:700;margin-bottom:24px;}
-    .modal-badge{display:inline-block;margin-top:28px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--orange);border:1px solid rgba(255,106,0,.3);padding:7px 18px;border-radius:20px;}
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: #0f0f14;
+      border: 1px solid #2a2a36;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(24px);
+      transition: transform 0.25s;
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .modal-badge {
+      display: inline-block;
+      margin-top: 28px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--orange);
+      border: 1px solid rgba(255, 106, 0, 0.3);
+      padding: 7px 18px;
+      border-radius: 20px;
+    }
   </style>
 </head>
 <body>
@@ -223,84 +1125,220 @@
 
 <!-- HOME -->
 <div id="page-home" class="page active">
-  <div class="home-grid-bg"></div><div class="home-glow"></div>
+  <div class="home-grid-bg"></div>
+  <div class="home-glow"></div>
   <main>
     <section class="hero container">
       <div class="hero-logo-frame fade-up"><img src="lab.png" alt="logo" class="hero-logo" /></div>
       <h1 class="fade-up fade-up-d1">Aiparadoxlabs</h1>
-      <div class="hero-intro fade-up fade-up-d2"><p>Experiments at the intersection of AI, internet culture and digital systems.</p><p>Nothing here is final.<br>Everything is in motion.</p><p>Each experiment explores a different idea — some will evolve, some will disappear.</p><p>This is not a product. This is a process.</p></div>
+      <div class="hero-intro fade-up fade-up-d2">
+        <p>Experiments at the intersection of AI, internet culture and digital systems.</p>
+        <p>Nothing here is final.<br>Everything is in motion.</p>
+        <p>Each experiment explores a different idea — some will evolve, some will disappear.</p>
+        <p>This is not a product. This is a process.</p>
+      </div>
       <button class="btn home-wp-btn fade-up fade-up-d3" onclick="openModal('wp-modal')">📄 SAUCE Whitepaper</button>
     </section>
-    <section class="container fade-up fade-up-d3" style="padding-top:0;"><p class="section-label">Experiments</p>
-      <div class="card experiment-card" onclick="navigate('sauce')"><div class="experiment-card-meta"><h3>$SAUCE</h3><p>Heat-driven experiment in digital attention</p></div><span class="experiment-card-arrow">→ Open</span></div>
+    <section class="container fade-up fade-up-d3" style="padding-top:0;">
+      <p class="section-label">Experiments</p>
+      <div class="card experiment-card" onclick="navigate('sauce')">
+        <div class="experiment-card-meta"><h3>$SAUCE</h3><p>Heat-driven experiment in digital attention</p></div>
+        <span class="experiment-card-arrow">→ Open</span>
+      </div>
     </section>
   </main>
   <div class="page-footer"><span class="footer-brand">Aiparadoxlabs</span><span class="footer-note">Nothing here is final</span></div>
 </div>
 
 <!-- EXPERIMENTS -->
-<div id="page-experiments" class="page"><div class="home-grid-bg"></div><div class="home-glow"></div>
-  <main><section class="container" style="padding-top:140px;"><p class="section-label fade-up">Experiments</p><h2 class="fade-up fade-up-d1">Active Experiments</h2><div class="experiments-grid fade-up fade-up-d3"><div class="card experiment-card" onclick="navigate('sauce')"><div class="experiment-card-meta"><h3>$SAUCE</h3><p>Heat-driven experiment in digital attention. An asset emerging from internet-native dynamics.</p></div><span class="experiment-card-arrow">→ Open</span></div></div></section></main>
+<div id="page-experiments" class="page">
+  <div class="home-grid-bg"></div>
+  <div class="home-glow"></div>
+  <main>
+    <section class="container" style="padding-top:140px;">
+      <p class="section-label fade-up">Experiments</p>
+      <h2 class="fade-up fade-up-d1">Active Experiments</h2>
+      <div class="experiments-grid fade-up fade-up-d3">
+        <div class="card experiment-card" onclick="navigate('sauce')">
+          <div class="experiment-card-meta"><h3>$SAUCE</h3><p>Heat-driven experiment in digital attention. An asset emerging from internet-native dynamics.</p></div>
+          <span class="experiment-card-arrow">→ Open</span>
+        </div>
+      </div>
+    </section>
+  </main>
   <div class="page-footer"><span class="footer-brand">Aiparadoxlabs</span><span class="footer-note">Nothing here is final</span></div>
 </div>
 
 <!-- $SAUCE PAGE -->
 <div id="page-sauce" class="page">
-  <div class="sauce-blob-1"></div><div class="sauce-blob-2"></div>
+  <div class="sauce-blob-1"></div>
+  <div class="sauce-blob-2"></div>
   <div class="sauce-banner-wrap"><img src="banner.png" alt="banner" class="sauce-banner" /></div>
-  <main style="position:relative;z-index:1;">
-    <!-- Hero with static blurred sauce.png behind -->
-    <section class="sauce-hero-section"><div class="sauce-hero-bg"></div>
-      <div class="sauce-hero container"><div class="sauce-logo-frame fade-up"><img src="sauce.png" alt="$SAUCE" class="sauce-logo" /></div><h1 class="sauce-title fade-up fade-up-d1">$SAUCE</h1><p class="sauce-tagline fade-up fade-up-d2">Too hot to ignore.</p></div>
+  <main>
+    <section class="sauce-hero-section">
+      <div class="sauce-hero-bg"></div>
+      <div class="sauce-hero container">
+        <div class="sauce-logo-frame fade-up"><img src="sauce.png" alt="$SAUCE" class="sauce-logo" /></div>
+        <h1 class="sauce-title fade-up fade-up-d1">$SAUCE</h1>
+        <p class="sauce-tagline fade-up fade-up-d2">Too hot to ignore.</p>
+      </div>
     </section>
-    <!-- chest.png full bleed -->
     <div class="sauce-chest-wrap"><img src="chest.png" alt="chest" class="sauce-chest-img" /></div>
     <div class="heat-divider"></div>
-    <section class="sauce-desc-section"><div class="sauce-description container fade-up"><p>$SAUCE is an experimental asset emerging from internet-native dynamics.</p><p>It is not built on fundamentals, but on attention, narrative and participation.</p><p>This experiment explores how value forms, shifts and spreads in real time.</p><div class="sauce-narrative fade-up fade-up-d1"><p>No roadmap.</p><p>No promises.</p><p>No predefined outcome.</p><p style="margin-top:16px;">$SAUCE exists as a live test of behavior, liquidity and collective interpretation.</p></div></div></section>
+    <section class="sauce-desc-section">
+      <div class="sauce-description container fade-up">
+        <p>$SAUCE is an experimental asset emerging from internet-native dynamics.</p>
+        <p>It is not built on fundamentals, but on attention, narrative and participation.</p>
+        <p>This experiment explores how value forms, shifts and spreads in real time.</p>
+        <div class="sauce-narrative fade-up fade-up-d1">
+          <p>No roadmap.</p>
+          <p>No promises.</p>
+          <p>No predefined outcome.</p>
+          <p style="margin-top:16px;">$SAUCE exists as a live test of behavior, liquidity and collective interpretation.</p>
+        </div>
+      </div>
+    </section>
     <div class="heat-divider"></div>
-    <!-- CA + BUY + WHITEPAPER BUTTON -->
-    <section style="padding:50px 0 30px;"><div class="sauce-description container fade-up"><div class="sauce-ca-block"><div><p class="sauce-ca-label">Contract Address</p><p class="sauce-ca-value" id="ca-text">FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump</p></div><button class="btn copy-btn" onclick="copyCA()">Copy CA</button></div><div class="sauce-action-row"><a href="https://phantom.com/tokens/solana/FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump?referralId=7aw76m834jr" target="_blank" class="btn btn-buy">🔥 Buy $SAUCE</a><button class="btn btn-wp-sauce" onclick="openModal('wp-modal')">📄 Whitepaper</button></div></div></section>
-    
-    <!-- LIVE CHART SECTION (below CA) -->
-    <section class="sauce-chart-section container fade-up"><p class="sauce-section-title">Live <span>Chart</span></p><div class="chart-wrap"><iframe src="https://www.dextools.io/widget-chart/en/solana/pe-light/FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump?theme=dark&chartType=2&chartResolution=30&drawingToolbar=false" title="$SAUCE Live Chart" loading="lazy" allowfullscreen></iframe></div></section>
-    
-    <!-- COMMUNITY SECTION glassmorphism -->
-    <section class="sauce-community-section container fade-up"><p class="sauce-section-title">Join the <span>Community</span></p><div class="community-grid"><a href="https://x.com/AIPARADOXLABS" target="_blank" class="community-card twitter"><div class="community-icon"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622z"/></svg></div><div class="community-card-name">Twitter / X</div><div class="community-card-desc">Follow for updates, drops and chaos.</div><div class="community-card-handle">@AIPARADOXLABS</div></a><a href="https://t.me/HotSauceSOL" target="_blank" class="community-card telegram"><div class="community-icon"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div><div class="community-card-name">Telegram</div><div class="community-card-desc">Live chat, alpha and community vibes.</div><div class="community-card-handle">t.me/HotSauceSOL</div></a></div></section>
+    <section style="padding:50px 0 30px;">
+      <div class="sauce-description container fade-up">
+        <div class="sauce-ca-block">
+          <div><p class="sauce-ca-label">Contract Address</p><p class="sauce-ca-value" id="ca-text">FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump</p></div>
+          <button class="btn copy-btn" onclick="copyCA()">Copy CA</button>
+        </div>
+        <div class="sauce-action-row">
+          <a href="https://phantom.com/tokens/solana/FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump?referralId=7aw76m834jr" target="_blank" class="btn btn-buy">🔥 Buy $SAUCE</a>
+          <button class="btn btn-wp-sauce" onclick="openModal('wp-modal')">📄 Whitepaper</button>
+        </div>
+      </div>
+    </section>
+    <section class="sauce-chart-section container fade-up">
+      <p class="sauce-section-title">Live <span>Chart</span></p>
+      <div class="chart-wrap">
+        <iframe src="https://www.dextools.io/widget-chart/en/solana/pe-light/FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump?theme=dark&chartType=2&chartResolution=30&drawingToolbar=false" title="$SAUCE Live Chart" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </section>
+    <section class="sauce-community-section container fade-up">
+      <p class="sauce-section-title">Join the <span>Community</span></p>
+      <div class="community-grid">
+        <a href="https://x.com/AIPARADOXLABS" target="_blank" class="community-card twitter">
+          <div class="community-icon"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622z"/></svg></div>
+          <div class="community-card-name">Twitter / X</div>
+          <div class="community-card-desc">Follow for updates, drops and chaos.</div>
+          <div class="community-card-handle">@AIPARADOXLABS</div>
+        </a>
+        <a href="https://t.me/HotSauceSOL" target="_blank" class="community-card telegram">
+          <div class="community-icon"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+          <div class="community-card-name">Telegram</div>
+          <div class="community-card-desc">Live chat, alpha and community vibes.</div>
+          <div class="community-card-handle">t.me/HotSauceSOL</div>
+        </a>
+      </div>
+    </section>
   </main>
-  <div style="border-top:1px solid rgba(255,45,45,.15);margin:0 24px;"><div class="page-footer" style="border:none;"><span class="footer-brand">Aiparadoxlabs / $SAUCE</span><span class="footer-note">Not financial advice. Just fire.</span></div></div>
+  <div style="border-top:1px solid rgba(255,45,45,.15); margin:0 24px;">
+    <div class="page-footer" style="border:none;"><span class="footer-brand">Aiparadoxlabs / $SAUCE</span><span class="footer-note">Not financial advice. Just fire.</span></div>
+  </div>
 </div>
 
-<!-- WHITEPAPER MODAL -->
-<div class="modal-overlay" id="wp-modal" onclick="closeModalOutside(event,'wp-modal')"><div class="modal-box"><button class="modal-close" onclick="closeModal('wp-modal')">×</button><div class="modal-content"><p class="modal-title">$SAUCE Whitepaper</p><p>This document outlines the vision, mechanics and cultural framework of the $SAUCE experiment.</p><p>$SAUCE is not a traditional project. It does not operate on promises or predetermined outcomes. It is a live study in how attention, narrative and participation shape value in real time.</p><p>More details are being assembled. The whitepaper will evolve alongside the experiment itself — reflecting its nature rather than contradicting it.</p><div class="modal-badge">📄 Coming Soon</div></div></div></div>
+<!-- MODAL -->
+<div class="modal-overlay" id="wp-modal" onclick="closeModalOutside(event,'wp-modal')">
+  <div class="modal-box"><button class="modal-close" onclick="closeModal('wp-modal')">×</button><div class="modal-content"><p class="modal-title">$SAUCE Whitepaper</p><p>This document outlines the vision, mechanics and cultural framework of the $SAUCE experiment.</p><p>$SAUCE is not a traditional project. It does not operate on promises or predetermined outcomes. It is a live study in how attention, narrative and participation shape value in real time.</p><p>More details are being assembled. The whitepaper will evolve alongside the experiment itself — reflecting its nature rather than contradicting it.</p><div class="modal-badge">📄 Coming Soon</div></div></div>
+</div>
 
-<!-- SAUCE AI CHATBOT -->
+<!-- CHATBOT -->
 <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChatbot()"><svg class="chatbot-open-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><svg class="chatbot-close-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
-<div class="chatbot-window" id="chatbot-window"><div class="chatbot-header"><div class="chatbot-avatar">🌶️</div><div class="chatbot-header-text"><div class="chatbot-header-name">SAUCE AI</div><div class="chatbot-header-status">● Online — Ask me anything</div></div></div><div class="chatbot-messages" id="chatbot-messages"><div class="chat-msg bot"><div class="chat-bubble">🌶️ Hey! I'm SAUCE AI. Ask me about $SAUCE — what it is, how to buy, contract address, community links, or the experiment behind it.</div></div></div><div class="chatbot-input-row"><input class="chatbot-input" id="chatbot-input" placeholder="Ask about $SAUCE..." onkeydown="if(event.key==='Enter')sendMessage()" /><button class="chatbot-send" onclick="sendMessage()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div></div>
+<div class="chatbot-window" id="chatbot-window">
+  <div class="chatbot-header"><div class="chatbot-avatar">🌶️</div><div class="chatbot-header-text"><div class="chatbot-header-name">SAUCE AI</div><div class="chatbot-header-status">● Online — Ask me anything</div></div></div>
+  <div class="chatbot-messages" id="chatbot-messages"><div class="chat-msg bot"><div class="chat-bubble">🌶️ Hey! I'm SAUCE AI. Ask me about $SAUCE — what it is, how to buy, contract address, community links, or the experiment behind it.</div></div></div>
+  <div class="chatbot-input-row"><input class="chatbot-input" id="chatbot-input" placeholder="Ask about $SAUCE..." onkeydown="if(event.key==='Enter')sendMessage()" /><button class="chatbot-send" onclick="sendMessage()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>
+</div>
 <div class="toast" id="toast">CA Copied!</div>
 
 <script>
-  const pages={ home:'page-home', experiments:'page-experiments', sauce:'page-sauce' };
-  function navigate(name){ Object.values(pages).forEach(id=>{let el=document.getElementById(id);if(el)el.classList.remove('active');}); document.getElementById(pages[name]).classList.add('active'); window.scrollTo({top:0,behavior:'instant'}); updateNavAccent(name); updateChatbot(name); if(window.location.hash!=='#'+name) history.pushState(null,'','#'+name); closeMobileNav(); }
-  function updateNavAccent(name){ document.getElementById('navbar').style.setProperty('--nav-accent', name==='sauce'?'#FF6A00':'#A855F7'); }
-  function updateChatbot(name){ let btn=document.getElementById('chatbot-toggle'); btn.style.display=(name==='sauce')?'flex':'none'; if(name!=='sauce'){ chatOpen=false; btn.classList.remove('open'); document.getElementById('chatbot-window').classList.remove('open'); } }
-  window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20));
-  function toggleMobileNav(){ document.getElementById('nav-links').classList.toggle('open'); }
-  function closeMobileNav(){ document.getElementById('nav-links').classList.remove('open'); }
-  function routeFromHash(){ let hash=window.location.hash.replace('#','')||'home'; navigate(pages[hash]?hash:'home'); }
-  window.addEventListener('hashchange',routeFromHash); routeFromHash();
-  function copyCA(){ navigator.clipboard.writeText(document.getElementById('ca-text').textContent.trim()).then(()=>showToast('CA Copied!')).catch(()=>showToast('Copy failed')); }
-  function showToast(msg){ let t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
-  function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
-  function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
-  function closeModalOutside(e,id){ if(e.target.id===id) closeModal(id); }
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open')); document.body.style.overflow=''; } });
-  
-  let chatOpen=false;
-  function toggleChatbot(){ chatOpen=!chatOpen; document.getElementById('chatbot-toggle').classList.toggle('open',chatOpen); document.getElementById('chatbot-window').classList.toggle('open',chatOpen); if(chatOpen) setTimeout(()=>document.getElementById('chatbot-input').focus(),300); }
-  const sauceKB=[{q:['what is sauce','what is $sauce','tell me about','explain sauce','about'],a:'$SAUCE is an experimental digital asset on Solana. A live experiment in attention, narrative and participation. No roadmap, no promises, no predefined outcome.'},{q:['contract','ca','contract address','address','token address'],a:'The $SAUCE contract address is: FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump'},{q:['buy','how to buy','purchase','get sauce','where to buy'],a:'Buy $SAUCE on Phantom Wallet. Click the 🔥 Buy $SAUCE button on this page, or paste CA: FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump'},{q:['twitter','x','follow'],a:'Follow $SAUCE on X: @AIPARADOXLABS → https://x.com/AIPARADOXLABS'},{q:['telegram','community','chat','group','tg'],a:'Join Telegram: t.me/HotSauceSOL — live alpha and heat.'},{q:['roadmap','plan','future','utility'],a:'There is no roadmap. That’s intentional. $SAUCE direction is shaped by attention and participation.'},{q:['whitepaper','paper','docs','documentation'],a:'The $SAUCE whitepaper is coming soon. Click the 📄 Whitepaper button on this page.'},{q:['solana','chain'],a:'$SAUCE lives on Solana — fast, low-fee, for internet-native assets.'},{q:['aiparadoxlabs','lab','who made','team','creator'],a:'$SAUCE is an experiment by Aiparadoxlabs — experiments at the intersection of AI, internet culture and digital systems.'},{q:['chart','price','dex','dextools'],a:'The live $SAUCE chart is embedded on this page via DexTools. Scroll to Live Chart section.'},{q:['hello','hi','hey','gm'],a:'Hey! 🌶️ Welcome to $SAUCE. Ask me anything — contract, how to buy, community, or the experiment.'}];
-  function getSauceAnswer(input){ let q=input.toLowerCase().trim(); for(let e of sauceKB) if(e.q.some(kw=>q.includes(kw))) return e.a; return "Good question 🌶️ I don't have a specific answer for that yet. Join the community: Telegram → t.me/HotSauceSOL or follow @AIPARADOXLABS on X."; }
-  function sendMessage(){ let input=document.getElementById('chatbot-input'); let text=input.value.trim(); if(!text) return; input.value=''; let msgs=document.getElementById('chatbot-messages'); msgs.innerHTML+=`<div class="chat-msg user"><div class="chat-bubble">${escapeHtml(text)}</div></div>`; let tid='t'+Date.now(); msgs.innerHTML+=`<div class="chat-msg bot" id="${tid}"><div class="chat-bubble chat-typing"><span></span><span></span><span></span></div></div>`; msgs.scrollTop=msgs.scrollHeight; setTimeout(()=>{ let el=document.getElementById(tid); if(el)el.remove(); msgs.innerHTML+=`<div class="chat-msg bot"><div class="chat-bubble">${escapeHtml(getSauceAnswer(text)).replace(/\n/g,'<br>')}</div></div>`; msgs.scrollTop=msgs.scrollHeight; },800+Math.random()*400); }
-  function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  const pages = { home: 'page-home', experiments: 'page-experiments', sauce: 'page-sauce' };
+  function navigate(name) {
+    Object.values(pages).forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('active'); });
+    document.getElementById(pages[name]).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    updateNavAccent(name);
+    updateChatbot(name);
+    if (window.location.hash !== '#' + name) history.pushState(null, '', '#' + name);
+    closeMobileNav();
+  }
+  function updateNavAccent(name) {
+    document.getElementById('navbar').style.setProperty('--nav-accent', name === 'sauce' ? '#FF6A00' : '#A855F7');
+  }
+  function updateChatbot(name) {
+    const btn = document.getElementById('chatbot-toggle');
+    if (!btn) return;
+    btn.style.display = (name === 'sauce') ? 'flex' : 'none';
+    if (name !== 'sauce' && window.chatOpen) {
+      window.chatOpen = false;
+      btn.classList.remove('open');
+      document.getElementById('chatbot-window').classList.remove('open');
+    }
+  }
+  window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20));
+  function toggleMobileNav() { document.getElementById('nav-links').classList.toggle('open'); }
+  function closeMobileNav() { document.getElementById('nav-links').classList.remove('open'); }
+  function routeFromHash() { const hash = window.location.hash.replace('#', '') || 'home'; navigate(pages[hash] ? hash : 'home'); }
+  window.addEventListener('hashchange', routeFromHash);
+  routeFromHash();
+
+  function copyCA() { navigator.clipboard.writeText(document.getElementById('ca-text').textContent.trim()).then(() => showToast('CA Copied!')).catch(() => showToast('Copy failed')); }
+  function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); }
+  function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+  function closeModalOutside(e, id) { if (e.target.id === id) closeModal(id); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open')); document.body.style.overflow = ''; } });
+
+  // CHATBOT LOGIC
+  window.chatOpen = false;
+  window.toggleChatbot = function () {
+    window.chatOpen = !window.chatOpen;
+    const btn = document.getElementById('chatbot-toggle');
+    const win = document.getElementById('chatbot-window');
+    if (btn) btn.classList.toggle('open', window.chatOpen);
+    if (win) win.classList.toggle('open', window.chatOpen);
+    if (window.chatOpen) setTimeout(() => document.getElementById('chatbot-input')?.focus(), 200);
+  };
+  const sauceKB = [
+    { q: ['what is sauce', 'what is $sauce', 'tell me about', 'explain sauce', 'about'], a: '$SAUCE is an experimental digital asset on Solana. A live experiment in attention, narrative and participation. No roadmap, no promises, no predefined outcome.' },
+    { q: ['contract', 'ca', 'contract address', 'address', 'token address'], a: 'The $SAUCE contract address is: FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump' },
+    { q: ['buy', 'how to buy', 'purchase', 'get sauce', 'where to buy'], a: 'Buy $SAUCE on Phantom Wallet. Click the 🔥 Buy $SAUCE button on this page, or paste CA: FLAs124fwksCvvGVhabkUhBzFFX7KPVxpihCkWcppump' },
+    { q: ['twitter', 'x', 'follow'], a: 'Follow $SAUCE on X: @AIPARADOXLABS → https://x.com/AIPARADOXLABS' },
+    { q: ['telegram', 'community', 'chat', 'group', 'tg'], a: 'Join Telegram: t.me/HotSauceSOL — live alpha and heat.' },
+    { q: ['roadmap', 'plan', 'future', 'utility'], a: 'There is no roadmap. That’s intentional. $SAUCE direction is shaped by attention and participation.' },
+    { q: ['whitepaper', 'paper', 'docs', 'documentation'], a: 'The $SAUCE whitepaper is coming soon. Click the 📄 Whitepaper button on this page.' },
+    { q: ['solana', 'chain'], a: '$SAUCE lives on Solana — fast, low-fee, for internet-native assets.' },
+    { q: ['aiparadoxlabs', 'lab', 'who made', 'team', 'creator'], a: '$SAUCE is an experiment by Aiparadoxlabs — experiments at the intersection of AI, internet culture and digital systems.' },
+    { q: ['chart', 'price', 'dex', 'dextools'], a: 'The live $SAUCE chart is embedded on this page via DexTools. Scroll to Live Chart section.' },
+    { q: ['hello', 'hi', 'hey', 'gm'], a: 'Hey! 🌶️ Welcome to $SAUCE. Ask me anything — contract, how to buy, community, or the experiment.' }
+  ];
+  function getSauceAnswer(input) {
+    const q = input.toLowerCase().trim();
+    for (let e of sauceKB) if (e.q.some(kw => q.includes(kw))) return e.a;
+    return "Good question 🌶️ I don't have a specific answer for that yet. Join the community: Telegram → t.me/HotSauceSOL or follow @AIPARADOXLABS on X.";
+  }
+  function sendMessage() {
+    const input = document.getElementById('chatbot-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    const msgs = document.getElementById('chatbot-messages');
+    msgs.innerHTML += `<div class="chat-msg user"><div class="chat-bubble">${escapeHtml(text)}</div></div>`;
+    const tid = 't' + Date.now();
+    msgs.innerHTML += `<div class="chat-msg bot" id="${tid}"><div class="chat-bubble chat-typing"><span></span><span></span><span></span></div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(() => {
+      const el = document.getElementById(tid);
+      if (el) el.remove();
+      msgs.innerHTML += `<div class="chat-msg bot"><div class="chat-bubble">${escapeHtml(getSauceAnswer(text)).replace(/\n/g, '<br>')}</div></div>`;
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 800 + Math.random() * 400);
+  }
+  function escapeHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  if (window.location.hash === '#sauce') setTimeout(() => updateChatbot('sauce'), 50);
 </script>
 </body>
 </html>
